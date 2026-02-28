@@ -37,6 +37,19 @@ cmake -S . -B build-mingw \
 cmake --build build-mingw -j
 ```
 
+
+> По умолчанию зависимости скачиваются как ZIP-архивы через `FetchContent` (без `git clone`).
+> Это устраняет ошибку вида `could not find git for clone of glfw-populate` в средах, где git недоступен из CMake.
+
+### Офлайн/локальные зависимости (без скачивания)
+
+Если сеть или загрузка архивов недоступны, можно использовать локальные копии исходников:
+
+```bash
+cmake -S . -B build   -DENGINE_USE_LOCAL_DEPS=ON   -DGLFW_LOCAL_SOURCE_DIR=/path/to/glfw   -DGLAD_LOCAL_SOURCE_DIR=/path/to/glad   -DGLM_LOCAL_SOURCE_DIR=/path/to/glm
+cmake --build build -j
+```
+
 ## Управление
 
 - `W/S` — вперёд/назад;
