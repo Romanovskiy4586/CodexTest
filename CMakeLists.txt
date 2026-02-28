@@ -64,11 +64,31 @@ add_library(engine
 
 target_include_directories(engine PUBLIC include)
 
+set(ENGINE_GLAD_TARGET "")
+if(TARGET glad::glad)
+  set(ENGINE_GLAD_TARGET glad::glad)
+elseif(TARGET glad)
+  set(ENGINE_GLAD_TARGET glad)
+elseif(TARGET libglad)
+  set(ENGINE_GLAD_TARGET libglad)
+else()
+  message(FATAL_ERROR "GLAD target was not found after FetchContent_MakeAvailable(glad)")
+endif()
+
+set(ENGINE_GLM_TARGET "")
+if(TARGET glm::glm)
+  set(ENGINE_GLM_TARGET glm::glm)
+elseif(TARGET glm)
+  set(ENGINE_GLM_TARGET glm)
+else()
+  message(FATAL_ERROR "GLM target was not found after FetchContent_MakeAvailable(glm)")
+endif()
+
 target_link_libraries(engine
   PUBLIC
     glfw
-    glad::glad
-    glm::glm
+    ${ENGINE_GLAD_TARGET}
+    ${ENGINE_GLM_TARGET}
 )
 
 if(MSVC)
